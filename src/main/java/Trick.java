@@ -1,10 +1,9 @@
-import java.util.List;
-
 import javax.persistence.Entity;
-
-
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.smallrye.common.constraint.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -15,17 +14,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class Trick  extends PanacheEntity{
+
+    @NotNull
     private String name;
+    @NotNull
     private int difficult;
+    @NotNull
     private int balls;
+    @NotNull
     private String description;
     private String siteswap;
-    //private List<Trick> preRequisites;
-    //private List<String> pictures;
-
-    /*
-    public void addPreRequisite(Trick trick) {
-        this.preRequisites.add(trick);
-    }
-    */
+    private String preRequisites;
 }
+
