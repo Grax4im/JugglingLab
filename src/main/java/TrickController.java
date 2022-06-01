@@ -8,7 +8,12 @@ public class TrickController {
         oldTrick.setDescription(trick.getDescription());
         oldTrick.setSiteswap(trick.getSiteswap());
         oldTrick.setPreRequisites(trick.getPreRequisites());
-
+        oldTrick.persistAndFlush();
         return oldTrick;
     }   
+    public static boolean create(Trick trick) {
+        if(trick.getName() == null || trick.getBalls() < 3 || trick.getDescription() == null || trick.getDifficult() < 0) return false;
+        trick.persistAndFlush();
+        return true;
+    }
 }

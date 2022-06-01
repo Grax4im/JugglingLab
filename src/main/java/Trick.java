@@ -1,8 +1,8 @@
-import javax.persistence.Entity;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Size;
+import java.util.List;
 
+import javax.persistence.Entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.smallrye.common.constraint.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +25,14 @@ public class Trick  extends PanacheEntity{
     private String description;
     private String siteswap;
     private String preRequisites;
+
+    public static List<PanacheEntityBase> findDifficult(Integer number){
+        return list("difficult", number);
+    }
+
+    public static List<PanacheEntityBase> findBalls(Integer number){
+        return list("balls", number);
+    }
+
 }
 
