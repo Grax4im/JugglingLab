@@ -1,5 +1,7 @@
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,26 +13,39 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
+
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-@Path("/trick/")
+
+ 
+
+@Path("/")
 @Transactional
 public class TrickResource {
+    @Inject
+    @Claim(standard = Claims.full_name)
+    String fullname;
 
+    //CREATE
+    @RolesAllowed({ "Admin" })
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response newTrick(Trick trick) {
         if(TrickController.create(trick)) return Response.ok(trick).build();
-        //descobrir status certo pra esse erro (dados incorretos)
-        return Response.status(404).build();
+        return Response.status(401).build();
     }
 
+    //READ
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<PanacheEntityBase> seeAll(){
         return Trick.listAll();
     }
 
+    //READ BY ID
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,6 +58,7 @@ public class TrickResource {
         return Response.ok(entidade).build();
     }
     
+    //READ BY DIFFICULT
     @GET
     @Path("/difficult/{number}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -51,6 +67,7 @@ public class TrickResource {
         return Response.ok(tricks).build();
     }
 
+    //READ BY BALL'S NUMBER
     @GET
     @Path("/balls/{number}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -59,7 +76,8 @@ public class TrickResource {
         return Response.ok(tricks).build();
     }
 
-
+    //UPDATE
+    @RolesAllowed({ "Admin" })
     @PUT
     @Path("{id}")
     public Response update(@PathParam("id") Long id, Trick trick){
@@ -75,6 +93,8 @@ public class TrickResource {
     }
 
 
+    //DELETE
+    @RolesAllowed({ "Admin" })
     @DELETE  
     @Path("{id}")   
     public Response delete(@PathParam("id") Long id) {  
