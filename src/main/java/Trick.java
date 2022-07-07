@@ -13,18 +13,24 @@ import lombok.NoArgsConstructor;
 @Setter
 @NoArgsConstructor
 
-public class Trick  extends PanacheEntity{
+public class Trick extends PanacheEntity{
 
     @NotNull
     private String name;
+
     @NotNull
     private int difficult;
+
     @NotNull
     private int balls;
+
     @NotNull
     private String description;
+
     private String siteswap;
+    
     private String preRequisites;
+
 
     public static List<PanacheEntityBase> findDifficult(Integer number){
         return list("difficult", number);
